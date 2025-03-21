@@ -45,11 +45,11 @@ class Classifier(object):
 		self.color = color
 
 		for i in range(10):
-			with open('C:\\research_weida\\EMG-GestureRecognition\\python_side\\data/vals%d.dat' % i, 'ab') as f: pass
+			with open('C:\\Users\\scott\\OneDrive\\Documents\\GitHub\\EMG-GestureRecognition1\\python_side\\data\\vals%d.dat' % i, 'ab') as f: pass
 		self.read_data()
 
 	def store_data(self, cls, vals):
-		with open('data/vals%d.dat' % cls, 'ab') as f:
+		with open('C:\\Users\\scott\\OneDrive\\Documents\\GitHub\\EMG-GestureRecognition1\\python_side\\data\\vals%d.dat' % cls, 'ab') as f:
 			f.write(pack('8H', *vals))
 
 		self.train(np.vstack([self.X, vals]), np.hstack([self.Y, [cls]]))
@@ -58,14 +58,14 @@ class Classifier(object):
 		X = []
 		Y = []
 		for i in range(10):
-			X.append(np.fromfile('C:\\research_weida\\EMG-GestureRecognition\\python_side\\data/vals%d.dat' % i, dtype=np.uint16).reshape((-1, 8)))
+			X.append(np.fromfile('C:\\Users\\scott\\OneDrive\\Documents\\GitHub\\EMG-GestureRecognition1\\python_side\\data\\vals%d.dat' % i, dtype=np.uint16).reshape((-1, 8)))
 			Y.append(i + np.zeros(X[-1].shape[0]))
 
 		self.train(np.vstack(X), np.hstack(Y))
 
 	def delete_data(self):
 		for i in range(10):
-			with open('data/vals%d.dat' % i, 'wb') as f: pass
+			with open('C:\\Users\\scott\\OneDrive\\Documents\\GitHub\\EMG-GestureRecognition1\\python_side\\data\\vals%d.dat' % i, 'wb') as f: pass
 		self.read_data()
 
 	def train(self, X, Y):

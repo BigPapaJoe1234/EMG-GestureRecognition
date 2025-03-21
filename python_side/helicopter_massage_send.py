@@ -37,11 +37,11 @@ TRAINING_MODE = True
 # Mapping of pose numbers to gesture strings
 pose_to_gesture = {
     0: "F",   # Fist
-    1: "OH",  # Open Hand
+    1: "U",  # Open Hand
     2: "L",   # Left
     3: "R",   # Right
-    4: "DN",  # Down
-    5: "RX"   # Rest
+    4: "D",  # Down
+    5: "OK"   # Rest
 }
 
 def send_command_zmq(pose):
@@ -50,7 +50,7 @@ def send_command_zmq(pose):
     if pose in pose_to_gesture:
         gesture = pose_to_gesture[pose]
     else:
-        gesture = "RX"  # Default to rest
+        gesture = "OK"  # Default to rest
         
     # Send the gesture string via ZMQ
     socket.send_string(gesture)
@@ -59,12 +59,12 @@ def send_command_zmq(pose):
 
 def pose_handler(pose):
     if pose == 0:
-        # fist
+        # fist (go forward 'F')
         send_command_zmq(0)
         print("hand closed")
         
     elif pose == 1:
-        # relax
+        # spread fingers (go up 'U')
         send_command_zmq(1)
         print("hand opened")
         
@@ -79,9 +79,14 @@ def pose_handler(pose):
         print("wrist right")
 
     elif pose == 4:
-        # close ring and pinky, open thumb and index and middle
+        # flip off (go down 'D")
         send_command_zmq(4)
         print("thumb, index, middle opened, ring and pinky closed")
+
+    elif pose == 5:
+        # rest (stay there 'OK')
+        send_command_zmq(5)
+        print("hand relaxed")
 
 
 if __name__ == '__main__':
